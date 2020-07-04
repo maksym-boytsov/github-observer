@@ -1,0 +1,17 @@
+@tailwind base;
+
+body {
+  @apply bg-gray-900;
+  height: 100vh;
+}
+
+main {
+  height: calc(100% - 135px);
+}
+
+#__next {
+  height: 100vh;
+}
+
+@tailwind components;
+@tailwind utilities;
