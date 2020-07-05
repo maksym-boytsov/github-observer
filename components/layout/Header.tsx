@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
           <input
             className="w-40 sm:w-auto bg-gray-800 rounded text-white xl:mr-4 mr-2 border border-gray-700 focus:outline-none focus:border-purple-500 text-base py-2 px-4"
             placeholder={`${
-              pathname === "/" ? "Github login" : "Organisation"
+              pathname === "/" ? "Github login" : "Organization"
             }`}
             onChange={handleQueryChange}
             value={query}
@@ -59,7 +59,7 @@ export const Header: React.FC = () => {
           <Link href="/">
             <a className="hover:text-white mr-2">Users</a>
           </Link>
-          <Link href="/organisations">
+          <Link href="/organizations">
             <a className="hover:text-white ml-2">Organizations</a>
           </Link>
         </nav>
