@@ -36,7 +36,7 @@ const Home: NextPage<HomeProps> = ({ initialData }) => {
   const { login, avatar_url, name, bio, public_repos, followers, following, hireable, html_url } = data;
 
   return (
-    <main className="text-gray-500 bg-gray-900 body-font flex items-center justify-center">
+    <>
       {data && !data.message ? (
         <div className="container px-5 py-10 sm:py-24  flex flex-col">
           <div className="lg:w-4/6 mx-auto">
@@ -96,7 +96,7 @@ const Home: NextPage<HomeProps> = ({ initialData }) => {
       ) : (
         <h1 className="text-3xl">Nothing found</h1>
       )}
-    </main>
+    </>
   );
 };
 

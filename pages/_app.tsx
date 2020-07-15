@@ -17,7 +17,9 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <StoreProvider>
         <Header />
-        <Component {...pageProps} />
+        <main className="text-gray-500 bg-gray-900 body-font flex items-center justify-center">
+          <Component {...pageProps} />
+        </main>
         <Footer />
       </StoreProvider>
     </>
