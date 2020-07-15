@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { useGlobalContext } from "./useGlobalContext";
+import { useGlobalContext } from './useGlobalContext';
 
 type GlobalContextType = {
   query?: string;
-  handleQueryChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleQueryChange?: React.ChangeEventHandler<HTMLInputElement>;
   shouldRevalidate?: boolean;
   setShouldRevalidate?: (shouldRevalidate: boolean) => void;
 };
@@ -12,12 +12,7 @@ type GlobalContextType = {
 export const GlobalContext = React.createContext<GlobalContextType>({});
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const {
-    query,
-    setQuery,
-    shouldRevalidate,
-    setShouldRevalidate,
-  } = useGlobalContext();
+  const { query, setQuery, shouldRevalidate, setShouldRevalidate } = useGlobalContext();
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

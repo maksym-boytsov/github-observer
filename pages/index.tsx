@@ -4,6 +4,7 @@ import useSWR from 'swr';
 
 import { GithubProfileRes } from 'api/github/models';
 import { GithubEndpoints, githubFetcher } from 'api/github';
+import { ArrowRightIcon } from 'components/ui/Icons';
 import { GlobalContext } from 'store';
 
 type HomeProps = {
@@ -14,10 +15,14 @@ type HomeProps = {
 const Home: NextPage<HomeProps> = ({ initialData }) => {
   const { query, shouldRevalidate, setShouldRevalidate } = useContext(GlobalContext);
 
-  const { data, mutate } = useSWR([`${GithubEndpoints.USERS}/`, query], (endpoint, username) => githubFetcher(endpoint + username), {
-    initialData,
-    revalidateOnFocus: false,
-  });
+  const { data, mutate } = useSWR(
+    [`${GithubEndpoints.USERS}/`, query],
+    (endpoint, username) => githubFetcher(endpoint + username),
+    {
+      initialData,
+      revalidateOnFocus: false,
+    }
+  );
 
   useEffect(() => {
     if (shouldRevalidate) {
@@ -109,17 +114,7 @@ const Home: NextPage<HomeProps> = ({ initialData }) => {
                   className="text-purple-500 inline-flex items-center text-left"
                 >
                   Go to profile
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-4 h-4 ml-2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7"></path>
-                  </svg>
+                  <ArrowRightIcon />
                 </a>
               </div>
             </div>
