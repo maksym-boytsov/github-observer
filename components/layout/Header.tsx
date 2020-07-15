@@ -4,7 +4,7 @@ import { useRouter } from 'next/dist/client/router';
 import { Input } from 'components/forms/Input';
 import { GlobalContext } from 'store';
 import { GithubIcon } from 'components/ui/Icons';
-import Link from 'components/ui/Link';
+import { Link } from 'components/ui/Link';
 
 export const Header: React.FC = () => {
   const { query, handleQueryChange, setShouldRevalidate } = useContext(GlobalContext);
@@ -40,8 +40,12 @@ export const Header: React.FC = () => {
         </form>
 
         <nav className="flex flex-wrap items-center text-base justify-center mt-6 md:mt-0">
-          <Link href="/">Users</Link>
-          <Link href="/organizations">Organizations</Link>
+          <Link href="/" extraUtilityClasses="mr-2">
+            Users
+          </Link>
+          <Link href="/organizations" extraUtilityClasses="ml-2">
+            Organizations
+          </Link>
         </nav>
       </div>
     </header>

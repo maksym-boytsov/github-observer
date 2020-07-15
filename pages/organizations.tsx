@@ -49,18 +49,16 @@ const Organizations: NextPage<{ initialData: GithubOrganizationRes }> = ({ initi
               'No website'
             )}
           </div>
-          <div className="flex flex-wrap text-center justify-center">
-            <div className="p-4">
-              <div className="border-2 border-gray-800 px-4 py-4 rounded-lg">
-                <RepositoriesIcon size={10} />
-                <a
-                  href={`${html_url}?tab=repositories`}
-                  className="title-font block font-medium text-3xl text-purple-500"
-                >
-                  {public_repos}
-                </a>
-                <p className="leading-relaxed">Public Repositories</p>
-              </div>
+          <div className="flex flex-wrap text-center justify-center items-center">
+            <div className="flex flex-col items-center mx-auto border-2 border-gray-800 px-4 py-4 rounded-lg">
+              <RepositoriesIcon size={10} />
+              <a
+                href={`${html_url}?tab=repositories`}
+                className="title-font block font-medium text-3xl text-purple-500"
+              >
+                {public_repos}
+              </a>
+              <p className="leading-relaxed">Public Repositories</p>
             </div>
           </div>
         </div>

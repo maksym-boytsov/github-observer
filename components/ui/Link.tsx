@@ -1,16 +1,15 @@
 import React from 'react';
+import NextLink from 'next/link';
 
 type LinkProps = {
   href: string;
   extraUtilityClasses?: string;
 };
 
-const Link: React.FC<LinkProps> = ({ children, extraUtilityClasses }) => {
+export const Link: React.FC<LinkProps> = ({ href, children, extraUtilityClasses }) => {
   return (
-    <Link href="/">
-      <div className={`hover:text-white ${extraUtilityClasses}`}>{children}</div>
-    </Link>
+    <NextLink href={href}>
+      <div className={`hover:text-white cursor-pointer focus:shadow-outline ${extraUtilityClasses}`}>{children}</div>
+    </NextLink>
   );
 };
-
-export default Link;
