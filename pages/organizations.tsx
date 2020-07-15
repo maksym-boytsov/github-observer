@@ -1,40 +1,17 @@
-import React, { useContext, useEffect } from "react";
-import { NextPage, GetServerSideProps } from "next";
-import { githubFetcher, GITHUB_URL } from "../misc/constants";
-import { GlobalContext } from "../store";
-import useSWR from "swr";
+import React, { useContext, useEffect } from 'react';
+import { NextPage, GetServerSideProps } from 'next';
+import useSWR from 'swr';
 
-type GithubOrganizationData = {
-  login: string;
-  id: number;
-  url: string;
-  avatar_url: string;
-  description: string;
-  name: string;
-  company: string | null;
-  blog: string | null;
-  location: string | null;
-  twitter_username: string | null;
-  has_organization_projects: true;
-  has_repository_projects: true;
-  public_repos: number;
-  followers: number;
-  following: number;
-  html_url: string;
-  created_at: string;
-  updated_at: string;
-};
+import { GithubOrganizationRes } from 'api/github/models';
+import { GithubEndpoints, githubFetcher } from 'api/github';
+import { GlobalContext } from 'store';
 
-const Organizations: NextPage<{ initialData: GithubOrganizationData }> = ({
-  initialData,
-}) => {
-  const { query, shouldRevalidate, setShouldRevalidate } = useContext(
-    GlobalContext
-  );
+const Organizations: NextPage<{ initialData: GithubOrganizationRes }> = ({ initialData }) => {
+  const { query, shouldRevalidate, setShouldRevalidate } = useContext(GlobalContext);
 
   const { data, mutate } = useSWR(
-    [`${GITHUB_URL}/orgs/`, query],
-    (url, username) => githubFetcher(url, username),
+    [`${GithubEndpoints.ORGANIZATIONS}/`, query],
+    (url, username) => githubFetcher(url + username),
     {
       initialData,
       revalidateOnFocus: false,
@@ -44,23 +21,12 @@ const Organizations: NextPage<{ initialData: GithubOrganizationData }> = ({
   useEffect(() => {
     if (shouldRevalidate) {
       mutate({ ...data });
-      setShouldRevalidate(false);
+      setShouldRevalidate && setShouldRevalidate(false);
     }
-  }, [shouldRevalidate]);
+  }, [data, setShouldRevalidate, mutate, shouldRevalidate]);
 
-  const {
-    login,
-    name,
-    description,
-    avatar_url,
-    bio,
-    public_repos,
-    followers,
-    following,
-    hireable,
-    html_url,
-    blog,
-  } = data;
+  const { login, description, avatar_url, public_repos, html_url, blog } = data;
+
   return (
     <main className="text-gray-500 bg-gray-900 body-font flex items-center justify-center">
       {data && !data.message ? (
@@ -72,26 +38,17 @@ const Organizations: NextPage<{ initialData: GithubOrganizationData }> = ({
                 src={avatar_url}
                 className="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-800 text-gray-600"
               />
-              <h1 className="sm:text-3xl text-2xl font-medium title-font my-4 text-white">
-                {login}
-              </h1>
+              <h1 className="sm:text-3xl text-2xl font-medium title-font my-4 text-white">{login}</h1>
             </a>
-            <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-              {description || "No description"}
-            </p>
+            <p className="lg:w-2/3 mx-auto leading-relaxed text-base">{description || 'No description'}</p>
           </div>
           <div className="text-center mb-8">
             {blog ? (
-              <a
-                href={blog}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-purple-400 text-center"
-              >
+              <a href={blog} target="_blank" rel="noopener noreferrer" className="text-purple-400 text-center">
                 {blog}
               </a>
             ) : (
-              "No website"
+              'No website'
             )}
           </div>
           <div className="flex flex-wrap text-center justify-center">
@@ -103,7 +60,7 @@ const Organizations: NextPage<{ initialData: GithubOrganizationData }> = ({
                   className="text-white w-10 h-10 mb-2 inline-block fill-current"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"
                   ></path>
                 </svg>
@@ -119,17 +76,14 @@ const Organizations: NextPage<{ initialData: GithubOrganizationData }> = ({
           </div>
         </div>
       ) : (
-        <h1 className="text-3xl">¯\_( ͡❛ ͜ʖ ͡❛)_/¯</h1>
+        <h1 className="text-3xl">Nothing found</h1>
       )}
     </main>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data: GithubOrganizationData = await githubFetcher(
-    `${GITHUB_URL}/orgs/`,
-    "startupdevhouse"
-  );
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data: GithubOrganizationRes = await githubFetcher(`${GithubEndpoints.ORGANIZATIONS}/startupdevhouse`);
 
   return {
     props: { initialData: data },

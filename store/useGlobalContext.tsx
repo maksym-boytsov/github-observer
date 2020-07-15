@@ -1,9 +1,16 @@
-import { useReducer, Reducer } from "react";
+import { useReducer, Reducer } from 'react';
 
 enum ActionTypes {
-  SET_QUERY = "SET_QUERY",
-  SET_SHOULD_REVALIDATE = "SET_SHOULD_REVALIDATE",
+  SET_QUERY = 'SET_QUERY',
+  SET_SHOULD_REVALIDATE = 'SET_SHOULD_REVALIDATE',
 }
+
+type ContextReturn = {
+  query: string;
+  shouldRevalidate: boolean;
+  setQuery: (query: string) => void;
+  setShouldRevalidate: (shouldRevalidate: boolean) => void;
+};
 
 type Action =
   | { type: ActionTypes.SET_QUERY; payload: string }
@@ -15,7 +22,7 @@ type State = {
 };
 
 const INITIAL_STATE: State = {
-  query: "",
+  query: '',
   shouldRevalidate: false,
 };
 
@@ -30,7 +37,7 @@ const reducer: Reducer<State, Action> = (prevState, action) => {
   }
 };
 
-export const useGlobalContext = () => {
+export const useGlobalContext = (): ContextReturn => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   return {
