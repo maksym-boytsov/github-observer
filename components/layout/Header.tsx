@@ -5,6 +5,7 @@ import { Input } from 'components/forms/Input';
 import { GlobalContext } from 'store';
 import { GithubIcon } from 'components/ui/Icons';
 import { Link } from 'components/ui/Link';
+import { Button } from 'components/ui/Button';
 
 export const Header: React.FC = () => {
   const { query, handleQueryChange, setShouldRevalidate } = useContext(GlobalContext);
@@ -31,12 +32,7 @@ export const Header: React.FC = () => {
             onChange={handleQueryChange}
             extraUtilityClasses="w-40 sm:w-auto"
           />
-          <button
-            type="submit"
-            className="flex-shrink-0 inline-flex text-white bg-purple-500 border-0 py-2 px-6 hover:bg-purple-600 rounded"
-          >
-            Search
-          </button>
+          <Button type="submit">Search</Button>
         </form>
 
         <nav className="flex flex-wrap items-center text-base justify-center mt-6 md:mt-0">
